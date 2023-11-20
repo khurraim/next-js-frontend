@@ -32,7 +32,8 @@ const EditModel = () => {
   // Obtain Current Model Data
   useEffect(() => {
     if (id) {
-      axios.get(`http://127.0.0.1:8000/api/models/${id}`)
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/models/${id}`)
+      //axios.get(`http://127.0.0.1:8000/api/models/${id}`)
         .then((response) => {
           setModel(response.data);
           setLoading(false);
@@ -44,7 +45,8 @@ const EditModel = () => {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      axios.get(`http://127.0.0.1:8000/api/models/services/${id}`)
+      //axios.get(`http://127.0.0.1:8000/api/models/services/${id}`)
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/models/services/${id}`)
         .then((response) => {
           setServices(response.data.services);
           console.log(response.data.services);
@@ -61,7 +63,9 @@ const EditModel = () => {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      axios.get(`http://127.0.0.1:8000/api/models/rates/${id}`)
+      
+      //axios.get(`http://127.0.0.1:8000/api/models/rates/${id}`)
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/models/rates/${id}`)
         .then((response) => {
           setRates(response.data.rates);
           console.log(response.data.rates);
@@ -78,7 +82,8 @@ const EditModel = () => {
   useEffect(() => {
     if(id) {
       setLoading(true);
-      axios.get(`http://127.0.0.1:8000/api/models/gallery/${id}`)
+      //axios.get(`http://127.0.0.1:8000/api/models/gallery/${id}`)
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/models/gallery/${id}`)
       .then((response)=>{
         setGallery(response.data);
         setLoading(false);
@@ -165,7 +170,8 @@ const EditModel = () => {
   const removeRatesDynamic = (id) => {
     if(id) {
       axios
-      .delete(`http://127.0.0.1:8000/api/rate/${id}`)
+      //.delete(`http://127.0.0.1:8000/api/rate/${id}`)
+      .delete(`${process.env.NEXT_PUBLIC_API_URL}/rate/${id}`)
       .then(() => {
         const updatedRates = rates.filter((rate) => rate.id !== id);
         setRates(updatedRates);
@@ -182,7 +188,8 @@ const EditModel = () => {
   const handleDeleteImage = (id) => {
     if(id) {
       axios
-      .delete(`http://127.0.0.1:8000/api/gallery/${id}`)
+      //.delete(`http://127.0.0.1:8000/api/gallery/${id}`)
+      .delete(`${process.env.NEXT_PUBLIC_API_URL}/gallery/${id}`)
       .then(()=>{
         const updatedGallery = gallery.filter((galleryImage) => galleryImage.id !== id);
         setGallery(updatedGallery);
@@ -199,7 +206,8 @@ const EditModel = () => {
   const removeServiceDynamic = (id) => {
     if(id) {
       axios
-      .delete(`http://127.0.0.1:8000/api/service/${id}`)
+      //.delete(`http://127.0.0.1:8000/api/service/${id}`)
+      .delete(`${process.env.NEXT_PUBLIC_API_URL}/service/${id}`)
       .then(() => {
         // After a successful deletion from the backend, remove it from the state
         const updatedServices = services.filter((service) => service.id !== id);
@@ -265,7 +273,8 @@ const EditModel = () => {
 
       console.log(formData);
 
-      await axios.post(`http://127.0.0.1:8000/api/models/${id}`, formData, {
+      //await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/models/${id}`)
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/models/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -337,9 +346,10 @@ const EditModel = () => {
               <label className='form-label'>Model Description</label>
               <textarea
                 name="modelDescription"
+                type="text"
                 value={model.modelDescription || ''}
                 className='form-control'
-                onChange={(e) => handleChange(e, 'description')}
+                onChange={(e) => handleChange(e, 'modelDescription')}
               />
             </div>
 

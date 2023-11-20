@@ -18,8 +18,10 @@ import NavbarDropdown from '../components/NavbarDropdown';
 // }
 
 const links = [
-  { label: 'View Models', url: '/dashboard/ViewModels' },
+  { label: 'View All Models', url: '/dashboard/ViewModels' },
   { label: 'Create Model', url: '/dashboard/CreateModel' },
+  { label: 'View Admin Model', url: '/dashboard/ViewAllAdminModels' },
+  { label: 'View User Model', url: '/dashboard/ViewAllUserModels' },
 ];
 
 const pagesLink = [
@@ -55,7 +57,7 @@ const SocialIconsSection = [
 ]
 
 const ContactMenu = [
-  { label: 'ViewMessages', url: '/dashboard/ViewMessages' },
+  { label: 'View Messages', url: '/dashboard/ViewMessages' },
 ]
 
 

@@ -8,7 +8,7 @@ function ContactList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/contacts')
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/contacts`)
       .then((response) => {
         setContacts(response.data);
         setLoading(false);

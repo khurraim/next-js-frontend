@@ -12,8 +12,11 @@ function ViewPages({ files }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
+    console.log('API_URL:', process.env.API_URL);
+
     // Make a GET request to your Laravel API endpoint to fetch the categories
-    axios.get('http://127.0.0.1:8000/api/pages')
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pages`)
       .then((response) => {
         setPages(response.data);
         setLoading(false);

@@ -10,7 +10,7 @@ const ViewMenu = () => {
 
     useEffect(() => {
         // Fetch menus when the component mounts
-        axios.get('http://127.0.0.1:8000/api/footer')
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/footer`)
             .then((response) => {
                 setMenus(response.data);
 
@@ -19,7 +19,8 @@ const ViewMenu = () => {
 
                 // Fetch page titles for all unique page IDs
                 pageIds.forEach(pageId => {
-                    axios.get(`http://127.0.0.1:8000/api/pages/${pageId}`)
+                    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pages/${pageId}`)
+                    //axios.get(`http://127.0.0.1:8000/api/pages/${pageId}`)
                         .then((pageResponse) => {
                             // Store page titles in the 'pages' state using page ID as the key
                             setPages(prevPages => ({

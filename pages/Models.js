@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Layout from "./layouts/Layout";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Select from 'react-select';
 
-function Models() {
+
+function models() {
     const router = useRouter();
 
     const [models, setModels] = useState([]);
@@ -15,56 +17,204 @@ function Models() {
     const [uniqueDressSizes, setUniqueDressSizes] = useState([]);
 
     // Filters (age, nationality, price, location, dressSize)
-    const [age, setAge] = useState("all");
-    const [nationality, setNationality] = useState("all");
-    const [price, setPrice] = useState("all");
-    const [location, setLocation] = useState("all");
+    const [age, setAge] = useState(["all"]); // Initial value is an array with "all"
+    //const [age, setAge] = useState("all");
+    //const [nationality, setNationality] = useState("all");
+    const [nationality, setNationality] = useState(["all"]);
+    const [price, setPrice] = useState(["all"]);
+    
+    //const [location, setLocation] = useState("all");
+    const [location, setLocation] = useState(["all"]);
+
     const [dressSize, setDressSize] = useState("all");
 
     const [currentPage, setCurrentPage] = useState(1); // Current page
     const [itemsPerPage] = useState(12); // Items per page
+    
 
     const handleAgeChange = (event) => {
-        const selectedAge = event.target.value;
-        setAge(selectedAge);
-        router.push(`/models?age=${selectedAge}`);
+        const selectedAges = Array.from(event.target.selectedOptions, (option) => option.value);
+        setAge(selectedAges);
+    
+        const queryParams = new URLSearchParams();
+    
+        // Handle "all" case for ages
+        if (selectedAges.length > 0) {
+            queryParams.set('age', selectedAges.join(','));
+        } else {
+            queryParams.delete('age');
+        }
+    
+        // Add other parameters to queryParams
+        if (nationality !== 'all') {
+            queryParams.set('nationality', nationality);
+        }
+    
+        if (price !== 'all') {
+            queryParams.set('price', price);
+        }
+    
+        if (location !== 'all') {
+            queryParams.set('location', location);
+        }
+    
+        if (dressSize !== 'all') {
+            queryParams.set('dressSize', dressSize);
+        }
+    
+        router.push(`/Models?${queryParams.toString()}`);
     };
+
+    
+
 
     const handleNationalityChange = (event) => {
-        const selectedNationality = event.target.value;
-        setNationality(selectedNationality);
-        router.push(`/models?age=${age}&nationality=${selectedNationality}`);
+        const selectedNationalities = Array.from(event.target.selectedOptions, (option) => option.value);
+        setNationality(selectedNationalities);
+        const queryParams = new URLSearchParams();
+        if (selectedNationalities.length > 0) {
+            queryParams.set('nationality', selectedNationalities.join(','));
+        } else {
+            queryParams.delete('nationality');
+        }
+        // Add other parameters to queryParams
+        // if (age.length > 0 && age[0] !== 'all') {
+        //     queryParams.set('age', age.join(','));
+        // }
+        if (price !== 'all') {
+            queryParams.set('price', price);
+        }
+        if (location !== 'all') {
+            queryParams.set('location', location);
+        }
+        if (dressSize !== 'all') {
+            queryParams.set('dressSize', dressSize);
+        }
+        router.push(`/Models?${queryParams.toString()}`);
     };
+    
+
+  
 
     const handlePriceChange = (event) => {
-        const selectedPrice = event.target.value;
-        setPrice(selectedPrice);
-        router.push (`/models?age=${age}&nationality=${nationality}&price=${selectedPrice}`);
+        const selectedPrices = Array.from(event.target.selectedOptions, (option) => option.value);
+        setPrice(selectedPrices);
+        const queryParams = new URLSearchParams();
+        if(selectedPrices,length > 0) {
+            queryParams.set('price', selectedPrices.join(','));
+        } else {
+            queryParams.delete('price');
+        }
     }
 
+    // const handleLocationChange = (event) => {
+    //     const selectedLocation = event.target.value;
+    //     setLocation(selectedLocation);
+    //     router.push (`/Models?age=${age}&nationality=${nationality}&price=${price}&location=${selectedLocation}`);
+    // }
+
     const handleLocationChange = (event) => {
-        const selectedLocation = event.target.value;
+        const selectedLocation = Array.from(event.target.selectedOptions, (option) => option.value);
         setLocation(selectedLocation);
-        router.push (`/models?age=${age}&nationality=${nationality}&price=${price}&location=${selectedLocation}`);
+        const queryParams = new URLSearchParams();
+        if(selectedLocation,length > 0) {
+            queryParams.set('location', selectedLocation.join(','));
+        } else {
+            queryParams.delete('location');
+        }
     }
 
     const handleDressSizeChange = (event) => {
         const selectedDressSize = event.target.value;
         setDressSize(selectedDressSize);
-        router.push(`/models?age=${age}&nationality=${nationality}&price=${price}&location=${location}&dressSize=${selectedDressSize}`);
+        router.push(`/Models?age=${age}&nationality=${nationality}&price=${price}&location=${location}&dressSize=${selectedDressSize}`);
     };
+
+    const handleFilterChange = (filterOptions) => {
+        const queryParams = new URLSearchParams();
+    
+        if (filterOptions.age.length > 0) {
+            queryParams.set('age', filterOptions.age.join(','));
+        } else {
+            queryParams.delete('age');
+        }
+    
+        if (filterOptions.nationality.length > 0) {
+            queryParams.set('nationality', filterOptions.nationality.join(','));
+        } else {
+            queryParams.delete('nationality');
+        }
+    
+        if (filterOptions.price.length > 0) {
+            queryParams.set('price', filterOptions.price.join(','));
+        } else {
+            queryParams.delete('price');
+        }
+    
+        if (filterOptions.location.length > 0) {
+            queryParams.set('location', filterOptions.location.join(','));
+        } else {
+            queryParams.delete('location');
+        }
+    
+        if (filterOptions.dressSize !== 'all') {
+            queryParams.set('dressSize', filterOptions.dressSize);
+        }
+    
+        router.push(`/Models?${queryParams.toString()}`);
+    };
+    
+
+    // const resetFilters = () => {
+    //     setAge("all");
+    //     setNationality("all");
+    //     setPrice("all");
+    //     setLocation("all");
+    //     setDressSize("all");
+    // };
 
     const resetFilters = () => {
-        setAge("all");
-        setNationality("all");
-        setPrice("all");
-        setLocation("all");
-        setDressSize("all");
+        setAge(["all"]);
+        setNationality(["all"]);
+        setPrice(["all"]);
+        setLocation(["all"]);
+        setDressSize(["all"]);
     };
+    
+
+    // useEffect(() => {
+    //     axios
+    //         .get(`http://127.0.0.1:8000/api/models?age=${age}&nationality=${nationality}&price=${price}&location=${location}&dressSize=${dressSize}`)
+    //         .then((response) => {
+    //             setModels(response.data);
+    //             setLoading(false);
+    //         })
+    //         .catch((error) => {
+    //             console.log("Error fetching models: ", error);
+    //         });
+    // }, [age, nationality, price, location, dressSize, router]);
+
+    // useEffect(() => {
+    //     const ageQueryParam = Array.isArray(age) ? age.join(",") : age;
+    //     axios
+    //         .get(`http://127.0.0.1:8000/api/models?age=${ageQueryParam}&nationality=${nationality}&price=${price}&location=${location}&dressSize=${dressSize}`)
+    //         .then((response) => {
+    //             setModels(response.data);
+    //             setLoading(false);
+    //         })
+    //         .catch((error) => {
+    //             console.log("Error fetching models: ", error);
+    //         });
+    // }, [age, nationality, price, location, dressSize, router]);
 
     useEffect(() => {
+        const ageQueryParam = Array.isArray(age) ? age.join(",") : age;
+        const nationalityQueryParam = Array.isArray(nationality) ? nationality.join(",") : nationality;
+        const priceQueryParam = Array.isArray(price) ? price.join(",") : price;
+        const locationQueryParam = Array.isArray(location) ? location.join(",") : location;
+        
         axios
-            .get(`http://127.0.0.1:8000/api/models?age=${age}&nationality=${nationality}&price=${price}&location=${location}&dressSize=${dressSize}`)
+            .get(`http://127.0.0.1:8000/api/models?age=${ageQueryParam}&nationality=${nationalityQueryParam}&price=${priceQueryParam}&location=${locationQueryParam}&dressSize=${dressSize}`)
             .then((response) => {
                 setModels(response.data);
                 setLoading(false);
@@ -73,6 +223,8 @@ function Models() {
                 console.log("Error fetching models: ", error);
             });
     }, [age, nationality, price, location, dressSize, router]);
+    
+    
 
         // this hook is rendering ages in the filters column
     useEffect(() => {
@@ -129,12 +281,13 @@ function Models() {
                     <div className="col-sm-2 col-md-2 col-lg-2 col-12">
                         <div className="card card-body">
                             <div className="card-title text-center">Filters</div>
-                            {/* Age Filter */}
-                            <div className="form-group">
+                            
+                            
+                            {/* <div className="form-group">
                                 <label className="form-label">Age Filter:</label>
-                                <select className="form-control" value={age} onChange={handleAgeChange}>
+                                <select className="form-control" value={age} onChange={handleAgeChange} multiple>
                                     <option value="all">All</option>
-                                    {/* Add age options */}
+                                
                                     {uniqueAges.map((uniqueAge) => (
                                     <option key={uniqueAge} value={uniqueAge}>
                                         {uniqueAge}
@@ -142,12 +295,12 @@ function Models() {
                                     ))}
                                 </select>
                             </div>
-                            {/* Nationality Filter */}
+                            
                             <div className="form-group">
                                 <label className="form-label">Nationality Filter:</label>
-                                <select className="form-control" value={nationality} onChange={handleNationalityChange}>
+                                <select className="form-control" value={nationality} onChange={handleNationalityChange} multiple>
                                     <option value="all">All</option>
-                                    {/* Add nationality options */}
+                                    
                                     {uniqueNationality.map((uniqueNationality) => (
                                         <option key={uniqueNationality.nationality} value={uniqueNationality.nationality}>
                                             {uniqueNationality.nationality} ({uniqueNationality.count})
@@ -155,12 +308,12 @@ function Models() {
                                     ))}
                                 </select>
                             </div>
-                            {/* Price Filter */}
+                            
                             <div className="form-group">
                                 <label className="form-label">Price Filter:</label>
-                                <select className="form-control" value={price} onChange={handlePriceChange}>
+                                <select className="form-control" value={price} onChange={handlePriceChange} multiple>
                                     <option value="all">All</option>
-                                    {/* Add price options */}
+                                    
                                     {uniquePrices.map((uniquePrice) => (
                                         <option key={uniquePrice.price} value={uniquePrice.price}>
                                             {uniquePrice.price} ({uniquePrice.count})
@@ -168,10 +321,10 @@ function Models() {
                                     ))}
                                 </select>
                             </div>
-                            {/* Location Filter */}
+                            
                             <div className="form-group">
                                 <label className="form-label">Location Filter:</label>
-                                <select className="form-control" value={location} onChange={handleLocationChange}>
+                                <select className="form-control" value={location} onChange={handleLocationChange} multiple>
                                     <option value="all">All</option>    
                                     {uniqueLocations.map((uniqueLocation) => (
                                     <option key={uniqueLocation.location} value={uniqueLocation.location}>
@@ -179,7 +332,81 @@ function Models() {
                                     </option>
                                     ))}
                                 </select>
-                            </div>
+                            </div> */}
+
+                            {/* Age Filter */}
+<div className="form-group">
+    <label className="form-label">Age Filter:</label>
+    <Select
+        value={age.map((a) => ({ label: a, value: a }))}
+        onChange={(selectedOptions) => {
+            const selectedAges = selectedOptions.map((option) => option.value);
+            setAge(selectedAges);
+            handleFilterChange({ age: selectedAges, nationality, price, location, dressSize });
+        }}
+        options={uniqueAges.map((uniqueAge) => ({ label: uniqueAge, value: uniqueAge }))}
+        isMulti
+    />
+</div>
+
+{/* Nationality Filter */}
+<div className="form-group">
+    <label className="form-label">Nationality Filter:</label>
+    <Select
+        value={nationality.map((n) => ({ label: n, value: n }))}
+        onChange={(selectedOptions) => {
+            const selectedNationalities = selectedOptions.map((option) => option.value);
+            setNationality(selectedNationalities);
+            handleFilterChange({ age, nationality: selectedNationalities, price, location, dressSize });
+        }}
+        options={uniqueNationality.map((uniqueNationality) => ({
+            label: uniqueNationality.nationality,
+            value: uniqueNationality.nationality,
+        }))}
+        isMulti
+    />
+</div>
+
+{/* Price Filter */}
+<div className="form-group">
+    <label className="form-label">Price Filter:</label>
+    <Select
+        value={price.map((p) => ({ label: p, value: p }))}
+        onChange={(selectedOptions) => {
+            const selectedPrices = selectedOptions.map((option) => option.value);
+            setPrice(selectedPrices);
+            handleFilterChange({ age, nationality, price: selectedPrices, location, dressSize });
+        }}
+        options={uniquePrices.map((uniquePrice) => ({
+            label: uniquePrice.price,
+            value: uniquePrice.price,
+        }))}
+        isMulti
+    />
+</div>
+
+{/* Location Filter */}
+<div className="form-group">
+    <label className="form-label">Location Filter:</label>
+    <Select
+        value={location.map((l) => ({ label: l, value: l }))}
+        onChange={(selectedOptions) => {
+            const selectedLocations = selectedOptions.map((option) => option.value);
+            setLocation(selectedLocations);
+            handleFilterChange({ age, nationality, price, location: selectedLocations, dressSize });
+        }}
+        options={uniqueLocations.map((uniqueLocation) => ({
+            label: uniqueLocation.location,
+            value: uniqueLocation.location,
+        }))}
+        isMulti
+    />
+</div>
+
+
+
+
+
                             {/* Dress Size Filter */}
                             <div className="form-group">
                                 <label className="form-label">Dress Size Filter:</label>
@@ -246,4 +473,4 @@ function Models() {
     );
 }
 
-export default Models;
+export default models;

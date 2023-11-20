@@ -4,6 +4,9 @@ import Link from 'next/link';
 import Admin from '../layouts/Admin';
 import { toast } from 'react-toastify';
 
+// Import the FontAwesomeIcon component
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 
 
@@ -12,7 +15,7 @@ function ViewSocialIcons() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/social-icons')
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/social-icons`)
       .then((response) => {
         setSocialIcons(response.data);
         setLoading(false);
@@ -61,10 +64,19 @@ function ViewSocialIcons() {
               {socialIcons.map((icon) => (
                 <tr key={icon.id}>
                   <td>{icon.id}</td>
+      
+                  {/* <td>{icon.link}</td> */}
                   <td>
-                    {icon.name}
-                  </td>
-                  <td>{icon.link}</td>
+  {icon.name === 'Twitter' ? (
+    // Render something when icon.name is 'Twitter'
+    <FontAwesomeIcon
+        icon={faTwitter}
+        style={{ fontSize: 100, color: "green" }}
+      />
+  ) : null}
+</td>
+<td>Link</td>
+
                   <td>
                     <Link href={`/dashboard/EditSocialIcons/${icon.id}`} className="btn btn-primary mx-3">
                       Edit

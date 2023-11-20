@@ -6,6 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
+
+// Frontend Template Dependencies
+import '@/assets/css/style.css';
+import '@/assets/css/modal.css';
+
 // import '@/assets/vendor/bootstrap/css/bootstrap.min.css';
 // import "@/assets/vendor/fonts/circular-std/style.css";
 // import "@/assets/libs/css/style.css";

@@ -14,7 +14,7 @@ const YourComponentTable = () => {
   useEffect(() => {
     // Fetch records when the component mounts
     axios
-      .get('http://127.0.0.1:8000/api/ModelsByUsers') // Replace with your API endpoint
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/ModelsByUsers`) // Replace with your API endpoint
       .then((response) => {
         setRecords(response.data);
         setLoading(false);

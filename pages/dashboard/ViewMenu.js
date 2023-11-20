@@ -10,7 +10,7 @@ const ViewMenu = () => {
 
     useEffect(() => {
         // Fetch menus when the component mounts
-        axios.get('http://127.0.0.1:8000/api/menu')
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu`)
             .then((response) => {
                 setMenus(response.data);
 

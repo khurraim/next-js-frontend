@@ -9,7 +9,7 @@ const FooterContentList = () => {
 
   useEffect(() => {
     // Fetch footer content from your backend API when the component mounts
-    axios.get('http://127.0.0.1:8000/api/footerContent') // Replace with your API endpoint
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/footerContent`) // Replace with your API endpoint
       .then((response) => {
         setFooterContent(response.data);
         setLoading(false);

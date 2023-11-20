@@ -13,6 +13,10 @@ import {
   faAnchor,
 } from "@fortawesome/free-solid-svg-icons";
 
+
+// import the Facebook icon from the free-brands-svg-icons package
+import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
+
 const Dashboard = () => {
 
   const {token} = AuthUser();
@@ -52,6 +56,12 @@ const Dashboard = () => {
         icon={faAnchor}
         style={{ fontSize: 100, color: "green" }}
       />
+
+      <FontAwesomeIcon
+        icon={faFacebookF}
+        style={{ fontSize: 100, color: "green" }}
+      />
+
       </div> 
     </Admin>
   );
