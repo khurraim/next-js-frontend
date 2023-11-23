@@ -9,7 +9,7 @@ const FormGroup = () => {
 
   useEffect(() => {
     // Fetch data from the API
-    axios.get('http://127.0.0.1:8000/api/form-groups')
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/form-groups`)
       .then((response) => {
         setGroups(response.data);
       })
@@ -20,7 +20,7 @@ const FormGroup = () => {
 
   const handleDelete = (id) => {
     // Make a DELETE request to delete the category with the specified ID
-    axios.delete(`http://127.0.0.1:8000/api/form-groups/${id}`)
+    axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/form-groups/${id}`)
       .then(() => {
         // If the delete request is successful, update the categories state
         setGroups((prevGroups) => prevGroups.filter((group) => group.id !== id));
@@ -52,7 +52,7 @@ const FormGroup = () => {
                         <td>
                         {group.image && (
                             <img
-                            src={`http://127.0.0.1:8000/storage/${group.image}`}
+                            src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/${group.image}`}
                             alt="Group Image"
                             style={{ maxWidth: '100px', height: 'auto' }}
                             />

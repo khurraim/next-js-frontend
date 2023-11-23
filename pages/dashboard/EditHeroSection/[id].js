@@ -18,14 +18,14 @@ const EditHeroSection = () => {
   useEffect(() => {
     // Fetch data for the specific record by ID
     if (id) {
-      axios.get(`http://127.0.0.1:8000/api/form-groups/${id}`)
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/form-groups/${id}`)
         .then((response) => {
           const { title, subtitle, image } = response.data;
           setFormData({
             title,
             subtitle,
             image: null, // Initialize as null because we don't want to show existing image on load
-            previewImage: `http://127.0.0.1:8000/storage/${image}`,
+            previewImage: `${process.env.NEXT_PUBLIC_STORAGE_URL}/${image}`,
           });
         })
         .catch((error) => {
@@ -77,7 +77,7 @@ const EditHeroSection = () => {
     try {
       // Send a PUT request to update the record
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/form-groups/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/form-groups/${id}`,
         updatedData,
         {
           headers: {

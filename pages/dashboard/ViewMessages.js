@@ -22,7 +22,7 @@ function ContactList() {
   const handleDelete = (id) => {
     // Make a DELETE request to delete the model with the specified ID
     axios
-      .delete(`http://127.0.0.1:8000/api/contacts/${id}`)
+      .delete(`${process.env.NEXT_PUBLIC_API_URL}/contacts/${id}`)
       .then(() => {
         // If the delete request is successful, update the records state
         setContacts((prevRecords) => prevRecords.filter((record) => record.id !== id));

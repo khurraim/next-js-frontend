@@ -68,7 +68,7 @@ function CreateHeroSection() {
 
       // Push the API request promise into the array
       apiRequests.push(
-        axios.post('http://127.0.0.1:8000/api/form-groups', formData, {
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/form-groups`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

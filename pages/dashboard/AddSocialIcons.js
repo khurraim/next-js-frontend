@@ -33,7 +33,7 @@ function AddSocialIcons() {
 
         try {
             // Make a POST request to save the social icon
-            await axios.post('http://127.0.0.1:8000/api/social-icons', socialIcons);
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/social-icons`, socialIcons);
 
             // Optionally, show a success message
             toast.success('Social Icon added successfully');

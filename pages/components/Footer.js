@@ -36,18 +36,29 @@ const Footer = () => {
     }, []);
 
     return (
-        <div className="header">
-            <ul>
-                {/* Generate navigation links for menu items */}
-                {menus.map((menu) => (
-                    <li key={menu.id}>
-                        <Link href={`/${pages[menu.page_id]?.replace(/\s/g, '')}`}>
+        <footer className="custom-footer-second pb-5" style={{zIndex: '100', position: 'relative', marginTop: '-75px'}}>
+            <div className="row">
+                <div className="col-md-4 text-white" style={{fontFamily: 'Anton-Regular'}}>Good Girls Gone Bad © 2023</div>
+                <div className="col-md-4 text-center payment-cards">
+                {/* <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-jcb"></i> */}
+                <img src="/images/payment-dark.png" alt />
+                </div>
+                <div className="col-md-4">
+                <div className="text-end text-white" style={{fontFamily: 'Anton-Regular'}}>
+                    {/* terms &amp; conditions */}
+                    {menus.map((menu) => (
+                    
+                        <Link style={{textDecoration: 'none', color: '#fff', margin: 'auto 5px'}} href={`/${pages[menu.page_id]?.replace(/\s/g, '')}`}>
                             {menu.title}
                         </Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
+                    
+                    ))}
+                </div>
+                </div>
+            </div>
+        </footer>
     );
 }
 

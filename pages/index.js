@@ -2,11 +2,29 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import Layout from './layouts/Layout'
+import Header from './components/Header'
+import HeroCarousel from './HeroCarousel'
+import Footer from './components/Footer'
+
+// Swiper Slide
+import Swiper from 'swiper';
+import { Navigation, Pagination } from 'swiper/modules';
+// import Swiper and modules styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
+// Import Swiper modules
+
+
 export default function Home() {
+
+  
+
+
   return (
     <>
       <Head>
@@ -16,9 +34,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
-        This is Home Page
-      </Layout>
+        <Header />
+        <HeroCarousel />
+        <Footer/>
+
+
+
 
       
     </>

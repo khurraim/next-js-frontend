@@ -72,7 +72,7 @@ function EditPage({page})
     const handleEdit = () =>
     {
         // Make a PUT request to update the category
-        axios.put(`http://127.0.0.1:8000/api/pages/${page.id}`, {
+        axios.put(`${process.env.NEXT_PUBLIC_API_URL}/pages/${page.id}`, {
             title,
             description,
         })
@@ -159,7 +159,7 @@ EditPage.getInitialProps = async ({ query }) => {
   
     // Fetch the category data based on the ID from the API
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/pages/${id}`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pages/${id}`);
       const page = response.data;
       return { page };
     } catch (error) {

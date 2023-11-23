@@ -37,21 +37,8 @@ const ViewMenu = () => {
             });
     }, []);
 
-    // const handleDelete = (id) => {
-    //     axios.delete(`http://127.0.0.1:8000/api/menu/${id}`)
-    //     .then(() => {
-    //       // If the delete request is successful, update the pages state
-    //       setPages((prevPages) => prevPages.filter((page) => page.id !== id));
-    //       toast.success("Group Deleted Successfully");
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error deleting Group:', error);
-    //       toast.error("Error Deleting Group");
-    //     });
-    // }
-
     const handleDelete = (id) => {
-        axios.delete(`http://127.0.0.1:8000/api/menu/${id}`)
+        axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/menu/${id}`)
           .then(() => {
             // If the delete request is successful, update the pages state
             const updatedPages = { ...pages };
@@ -60,7 +47,7 @@ const ViewMenu = () => {
             toast.success("Group Deleted Successfully");
       
             // Fetch menus again after deletion
-            axios.get('http://127.0.0.1:8000/api/menu')
+            axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu`)
               .then((response) => {
                 setMenus(response.data);
               })

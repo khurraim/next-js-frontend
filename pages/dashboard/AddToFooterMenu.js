@@ -14,7 +14,7 @@ const AddToFooterMenu = () => {
 
     useEffect(() => {
         // Fetch categories when the component mounts
-        axios.get('http://127.0.0.1:8000/api/pages')
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pages`)
             .then((response) => {
                 setPages(response.data);
                 console.log(response.data);
@@ -33,7 +33,7 @@ const AddToFooterMenu = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Make a POST request to the Laravel endpoint
-        axios.post('http://127.0.0.1:8000/api/footer', menu)
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/footer`, menu)
             .then((response) => {
                 console.log(response.data);
                 toast.success('Menu item added successfully');

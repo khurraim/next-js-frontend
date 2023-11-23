@@ -14,7 +14,7 @@ function EditSocialIcon() {
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://127.0.0.1:8000/api/social-icons/${id}`)
+      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/social-icons/${id}`)
         .then((response) => {
           setSocialIcon(response.data);
         })
@@ -36,7 +36,7 @@ function EditSocialIcon() {
     e.preventDefault();
 
     try {
-      await axios.put(`http://127.0.0.1:8000/api/social-icons/${id}`, socialIcon);
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/social-icons/${id}`, socialIcon);
       toast.success('Social Icon updated successfully');
     } catch (error) {
       console.error('Error updating social icon:', error);

@@ -15,7 +15,7 @@ const EditFooterContent = () => {
   useEffect(() => {
     // Fetch the footer content to edit based on the ID
     axios
-      .get(`http://127.0.0.1:8000/api/footerContent/${id}`) // Replace with your API endpoint
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/footerContent/${id}`) // Replace with your API endpoint
       .then((response) => {
         setContent(response.data);
         setLoading(false);
@@ -36,7 +36,7 @@ const handleSubmit = async (e) => {
     }
 
     const response = await axios.post(
-      `http://127.0.0.1:8000/api/footerContent/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/footerContent/${id}`,
       formData,
       {
         headers: {
@@ -96,7 +96,7 @@ const handleSubmit = async (e) => {
               <label>Existing Footer Image</label>
               {content.footer_image && (
                 <img
-                  src={`http://127.0.0.1:8000/storage/${content.footer_image}`}
+                  src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/${content.footer_image}`}
                   alt="Footer Image"
                   style={{ width: '100px', height: 'auto' }}
                 />

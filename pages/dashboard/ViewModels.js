@@ -35,7 +35,7 @@ const YourComponentTable = () => {
       for (const record of records) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/models/services/${record.id}`
+            `${process.env.NEXT_PUBLIC_API_URL}/models/services/${record.id}`
           ); // Replace with your service API endpoint
           servicesData[record.id] = response.data.services;
         } catch (error) {
@@ -60,7 +60,7 @@ const YourComponentTable = () => {
       for (const record of records) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/models/rates/${record.id}`
+            `${process.env.NEXT_PUBLIC_API_URL}/models/rates/${record.id}`
           ); // Replace with your service API endpoint
           ratesData[record.id] = response.data.rates;
         } catch (error) {
@@ -76,34 +76,12 @@ const YourComponentTable = () => {
     }
   },[records]);
 
-  // useEffect(() => {
-  //   // Fetch services for each model
-  //   const fetchStats = async () => {
-  //     const statsData = {};
 
-  //     for (const record of records) {
-  //       try {
-  //         const response = await axios.get(
-  //           `http://127.0.0.1:8000/api/models/stats/${record.id}`
-  //         ); // Replace with your service API endpoint
-  //         statsData[record.id] = response.data.stats;
-  //       } catch (error) {
-  //         console.error('Error fetching stats:', error);
-  //         statsData[record.id] = [];
-  //       }
-  //     }
-  //     setStats(statsData);
-  //   };
-
-  //   if (records.length > 0) {
-  //     fetchStats();
-  //   }
-  // }, [records]);
 
   const handleDelete = (id) => {
     // Make a DELETE request to delete the model with the specified ID
     axios
-      .delete(`http://127.0.0.1:8000/api/models/${id}`)
+      .delete(`${process.env.NEXT_PUBLIC_API_URL}/models/${id}`)
       .then(() => {
         // If the delete request is successful, update the records state
         setRecords((prevRecords) => prevRecords.filter((record) => record.id !== id));

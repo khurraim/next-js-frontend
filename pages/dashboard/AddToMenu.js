@@ -13,7 +13,7 @@ const AddToMenu = () => {
 
     useEffect(() => {
         // Fetch categories when the component mounts
-        axios.get('http://127.0.0.1:8000/api/pages')
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pages`)
             .then((response) => {
                 setPages(response.data);
                 console.log(response.data);
@@ -39,7 +39,7 @@ const AddToMenu = () => {
         }
 
         // Make a POST request to the Laravel endpoint
-        axios.post('http://127.0.0.1:8000/api/menu', menu)
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/menu`, menu)
             .then((response) => {
                 console.log(response.data);
                 toast.success('Menu item added successfully');

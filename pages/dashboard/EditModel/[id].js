@@ -240,6 +240,8 @@ const EditModel = () => {
       formData.append('dressSize', model.dressSize);
       formData.append('price', model.price);
       formData.append('weight', model.weight);
+      formData.append('height', model.height);
+      formData.append('phone_no', model.phone_no);
       
       // Append featured image only if a new image is selected
       if (imageFile) {
@@ -374,6 +376,26 @@ const EditModel = () => {
             </div>
 
             <div className='form-group'>
+              <label className='form-label'>Height</label>
+              <input
+                name="height"
+                value={model.height || ''}
+                className='form-control'
+                onChange={(e) => handleChange(e, 'height')}
+              />
+            </div>
+
+            <div className='form-group'>
+              <label className='form-label'>Phone No</label>
+              <input
+                name="phone_no"
+                value={model.phone_no || ''}
+                className='form-control'
+                onChange={(e) => handleChange(e, 'phone_no')}
+              />
+            </div>
+
+            <div className='form-group'>
               <label className='form-label'>Nationality</label>
               <input
                 name="nationality"
@@ -411,7 +433,7 @@ const EditModel = () => {
               <br />
               <img
                 id="featuredImagePreview"
-                src={`http://127.0.0.1:8000/storage/${model.featuredImage}`}
+                src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/${model.featuredImage}`}
                 alt="Featured Image"
                 style={{ width: '100px', height: 'auto' }}
                 className="img-fluid"

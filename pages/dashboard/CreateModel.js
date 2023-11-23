@@ -18,7 +18,9 @@ const NewComponent = () => {
     featuredImage: null,
     video: null,
     services: [{ name: ''}],
-    weight: ''
+    weight: '',
+    height: '',
+    phone_no: ''
   });
 
   const [loading, setLoading] = useState(true);
@@ -178,7 +180,7 @@ const NewComponent = () => {
 
       
 
-      const response = await axios.post('http://127.0.0.1:8000/api/models', formDataToSend, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/models`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data', // Set the content type for file upload
         },
@@ -198,7 +200,9 @@ const NewComponent = () => {
         featuredImage: null,
         video: null,
         services: [{ name: ''}],
-        weight: ''
+        weight: '',
+        height: '',
+        phone_no: ''
       });
       toast.success("Model Created Successfully");
     } catch (error) {
@@ -262,6 +266,30 @@ const NewComponent = () => {
                                 name="weight"  // Added the name attribute
 
                                 value={formData.weight}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div  className='form-group' >
+                            <label className='form-label'>Height</label>
+                            <input
+                                type="number"
+                                className='form-control'
+                                name="height"  // Added the name attribute
+
+                                value={formData.height}
+                                onChange={handleChange}
+                            />
+                        </div>
+
+                        <div  className='form-group' >
+                            <label className='form-label'>Phone No</label>
+                            <input
+                                type="text"
+                                className='form-control'
+                                name="phone_no"  // Added the name attribute
+
+                                value={formData.phone_no}
                                 onChange={handleChange}
                             />
                         </div>

@@ -31,7 +31,7 @@ const EditFooterMenu = () => {
         }
 
         // Fetch pages for populating the dropdown
-        axios.get('http://127.0.0.1:8000/api/pages')
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pages`)
             .then((response) => {
                 setPages(response.data);
             })
@@ -50,7 +50,7 @@ const EditFooterMenu = () => {
         e.preventDefault();
 
         // Make a PUT request to update the menu item
-        axios.put(`http://127.0.0.1:8000/api/footer/${id}`, menu)
+        axios.put(`${process.env.NEXT_PUBLIC_API_URL}/footer/${id}`, menu)
             .then((response) => {
                 console.log(response.data);
                 // Redirect to the menu list or another page upon success

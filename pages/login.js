@@ -39,7 +39,7 @@ const Login = () => {
 
   return (
     <Layout>
-    <div className="row justify-content-center pt-5">
+    <div className="row justify-content-center py-5 mb-5">
       <div className="col-sm-6">
         <div className="card p-4">
           <h1 className="text-center mb-3">Login </h1>
@@ -47,7 +47,7 @@ const Login = () => {
             <label>Email address:</label>
             <input
               type="email"
-              className="form-control"
+              className="form-control custom-select"
               placeholder="Enter email"
               onChange={(e) => setEmail(e.target.value)}
               id="email"
@@ -57,7 +57,7 @@ const Login = () => {
             <label>Password:</label>
             <input
               type="password"
-              className="form-control"
+              className="form-control custom-select"
               placeholder="Enter password"
               onChange={(e) => setPassword(e.target.value)}
               id="pwd"
@@ -66,7 +66,8 @@ const Login = () => {
           <button
             type="button"
             onClick={submitForm}
-            className="btn btn-primary mt-4"
+            className="btn btn-dark mt-4"
+            style={{borderRadius: '0px'}}
           >
             Login
           </button>

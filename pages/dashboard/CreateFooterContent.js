@@ -25,7 +25,7 @@ function CreateFooterContent() {
 
         try {
             // Make a POST request to your API endpoint to create or update footer content
-            const response = await axios.post('http://127.0.0.1:8000/api/footerContent', formData, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/footerContent`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // Set the content type for file upload
                 },

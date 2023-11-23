@@ -60,7 +60,7 @@ function ViewPages({ files }) {
 
   const deleteRecord = async (id, fileName) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/pages/${id}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/pages/${id}`);
       setPages((prevPages) => prevPages.filter((page) => page.id !== id));
       toast.success('Page Deleted Successfully');
   

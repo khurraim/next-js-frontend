@@ -5,7 +5,7 @@ import axios from "axios";
 
 // Import the FontAwesomeIcon component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter , faFacebook, faInstagram, faSnapchat } from "@fortawesome/free-brands-svg-icons";
+import { faTwitter , faFacebook, faInstagram, faSnapchat, faLinkedin, faPinterest } from "@fortawesome/free-brands-svg-icons";
 
 function Navbar()
 {
@@ -13,8 +13,11 @@ function Navbar()
     const [socialIcons, setSocialIcons] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const [menus, setMenus] = useState([]);
+    const [pages, setPages] = useState({});
+
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/social-icons')
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/social-icons`)
           .then((response) => {
             setSocialIcons(response.data);
             setLoading(false);
@@ -23,6 +26,35 @@ function Navbar()
             console.error('Error fetching social icons:', error);
             setLoading(false);
           });
+    }, []);
+
+    useEffect(() => {
+        // Fetch menus when the component mounts
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu`)
+            .then((response) => {
+                setMenus(response.data);
+
+                // Extract unique page IDs from menu items
+                const pageIds = [...new Set(response.data.map(menu => menu.page_id))];
+
+                // Fetch page titles for all unique page IDs
+                pageIds.forEach(pageId => {
+                    axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pages/${pageId}`)
+                        .then((pageResponse) => {
+                            // Store page titles in the 'pages' state using page ID as the key
+                            setPages(prevPages => ({
+                                ...prevPages,
+                                [pageId]: pageResponse.data.title,
+                            }));
+                        })
+                        .catch((error) => {
+                            console.error('Error fetching page:', error);
+                        });
+                });
+            })
+            .catch((error) => {
+                console.error('Error fetching menus:', error);
+            });
     }, []);
 
 
@@ -42,7 +74,7 @@ function Navbar()
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             
                             <li className="nav-item"> 
-                                <Link className="nav-link " href="/New">home</Link>
+                                <Link className="nav-link " href="/">home</Link>
                             </li>
                             
                             <li className="nav-item"> 
@@ -63,8 +95,28 @@ function Navbar()
                             </li>
 
                             <li className="nav-item">
-                                <Link className="nav-link " href="/">faq</Link>
+                                <Link className="nav-link " href="/faq">faq</Link>
                             </li>
+
+                            {menus.map((menu) => (
+                            < li className="nav-item">
+                                
+                                
+                                    {/* Create a link with the formatted URL */}
+                                    <a
+                                        href={`http://localhost:3000/${pages[menu.page_id]?.replace(/\s/g, '')}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="nav-link"
+                                    >
+                                        {pages[menu.page_id]?.replace(/\s/g, '')}
+                                    </a>
+                                
+                               
+                            </li>
+                            ))}
+
+                            
 
                         </ul>
                         </div>
@@ -93,24 +145,33 @@ function Navbar()
                                  {icon.name === 'Twitter' ? (
                                     <FontAwesomeIcon
                                         icon={faTwitter}
-                                        className="fab fa-twitter text-dark nav-link"
+                                        className="fab fa-twitter  nav-link"
                                     />
                                 ) : icon.name === 'Facebook' ? (
                                     <FontAwesomeIcon
                                         icon={faFacebook}
-                                        className="fab fa-facebook text-dark nav-link"
+                                        className="fab fa-facebook  nav-link"
                                     />
                                 ) : icon.name === 'Instagram' ? (
                                     <FontAwesomeIcon
                                         icon={faInstagram}
-                                        className="fab fa-instagram text-dark nav-link"
+                                        className="fab fa-instagram  nav-link"
                                     />
                                 ) : icon.name === 'Snapchat' ? (
                                     <FontAwesomeIcon
                                         icon={faSnapchat}
-                                        className="fab fa-snapchat text-dark nav-link"
+                                        className="fab fa-snapchat  nav-link"
                                     />
-                                ) : null}
+                                ) : icon.name === 'Linkedin' ? (
+                                    <FontAwesomeIcon
+                                        icon={faLinkedin}
+                                        className="fab fa-snapchat  nav-link"
+                                    /> 
+                                ) : icon.name === 'Pinterest' ? (
+                                    <FontAwesomeIcon
+                                        icon={faPinterest}
+                                        className="fab fa-snapchat  nav-link"
+                                    /> ) : null}
                             
                             </li>
                         </Link>

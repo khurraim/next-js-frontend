@@ -61,7 +61,7 @@ export default function CreateFileForm() {
   const generateRecord = async () => {
     try
     {
-        const response = await axios.post('http://127.0.0.1:8000/api/pages', {title, description});
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pages`, {title, description});
         toast.success('Record Saved Successfully');
     }
     catch(error)

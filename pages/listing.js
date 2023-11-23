@@ -5,6 +5,14 @@ import { useRouter } from "next/router";
 import Select from 'react-select';
 import Modal from "./components/Modal";
 
+// Import the FontAwesomeIcon component
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+//import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+
+import {
+  faWhatsapp
+} from "@fortawesome/free-brands-svg-icons";
 
 function Listing()
 {
@@ -34,6 +42,8 @@ function Listing()
     const [uniqueNationality, setUniqueNationalities] = useState([]);
     const [uniquePrices, setUniquePrices] = useState([]);
     const [uniqueLocations, setUniqueLocations] = useState([]);
+    const [uniqueHeights, setUniqueHeights] = useState([]);
+
     const [uniqueDressSizes, setUniqueDressSizes] = useState([]);
 
     // States For Filters
@@ -41,6 +51,8 @@ function Listing()
     const [age, setAge] = useState(["all"]); 
     const [nationality, setNationality] = useState(["all"]);
     const [price, setPrice] = useState(["all"]);
+    const [height, setHeight] = useState(["all"]);
+
     const [dressSize, setDressSize] = useState(["all"]);
 
 
@@ -53,6 +65,7 @@ function Listing()
     const [selectedNationality, setSelectedNationality] = useState('');
     const [selectedDressSize, setSelectedDressSize] = useState('');
     const [selectedWeight, setSelectedWeight] = useState('');
+    const [selectedVideo, setSelectedVideo] = useState('');
     const [selectedId, setSelectedId] = useState('');
 
     // New
@@ -69,7 +82,7 @@ function Listing()
 
     // Render Unique Locations in filters column
     useEffect(()=>{
-        axios.get(`http://127.0.0.1:8000/api/models/unique-locations`)
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/models/unique-locations`)
         .then((response)=>{
             setUniqueLocations(response.data);
         })
@@ -77,7 +90,7 @@ function Listing()
     },[]);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/models/unique-ages`)
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/models/unique-ages`)
         .then((response) => {
             setUniqueAges(response.data);
         })
@@ -86,7 +99,7 @@ function Listing()
 
     // this hook is rendering nationalities in the filters column
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/models/unique-nationalities`)
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/models/unique-nationalities`)
         .then((response) => {
             setUniqueNationalities(response.data);
         })
@@ -95,9 +108,18 @@ function Listing()
 
     // this hook is rendering prices in the filters column
     useEffect(()=>{
-        axios.get(`http://127.0.0.1:8000/api/models/unique-prices`)
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/models/unique-prices`)
         .then((response)=>{
             setUniquePrices(response.data);
+        })
+        .catch((error) => { console.log("Error fetching prices :", error) })
+    },[]);
+
+    // unique heights
+    useEffect(()=>{
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/models/unique-heights`)
+        .then((response)=>{
+            setUniqueHeights(response.data);
         })
         .catch((error) => { console.log("Error fetching prices :", error) })
     },[]);
@@ -111,7 +133,7 @@ function Listing()
       for (const record of records) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/models/rates/${record.id}`
+            `${process.env.NEXT_PUBLIC_API_URL}/models/rates/${record.id}`
           ); // Replace with your service API endpoint
           ratesData[record.id] = response.data.rates;
         } catch (error) {
@@ -159,6 +181,12 @@ function Listing()
         if (filterOptions.dressSize !== 'all') {
             queryParams.set('dressSize', filterOptions.dressSize);
         }
+
+        if (filterOptions.height !== 'all') {
+            queryParams.set('height', filterOptions.height);
+        } else {
+            queryParams.delete('height');
+        }
     
         router.push(`/listing?${queryParams.toString()}`);
     };
@@ -169,9 +197,10 @@ function Listing()
         const nationalityQueryParam = Array.isArray(nationality) ? nationality.join(",") : nationality;
         const priceQueryParam = Array.isArray(price) ? price.join(",") : price;
         const locationQueryParam = Array.isArray(location) ? location.join(",") : location;
+        const heightQueryParam = Array.isArray(height) ? height.join(",") : height;
         
         axios
-            .get(`http://127.0.0.1:8000/api/models?age=${ageQueryParam}&nationality=${nationalityQueryParam}&price=${priceQueryParam}&location=${locationQueryParam}&dressSize=${dressSize}`)
+            .get(`${process.env.NEXT_PUBLIC_API_URL}/models?age=${ageQueryParam}&nationality=${nationalityQueryParam}&price=${priceQueryParam}&location=${locationQueryParam}&height=${heightQueryParam}&dressSize=${dressSize}`)
             .then((response) => {
                 setModels(response.data);
                 setRecords(response.data);
@@ -180,7 +209,7 @@ function Listing()
             .catch((error) => {
                 console.log("Error fetching models: ", error);
             });
-    }, [age, nationality, price, location, dressSize, router]);
+    }, [age, nationality, price, location, height, dressSize, router]);
 
 
     
@@ -189,7 +218,7 @@ function Listing()
 
 
     // Function to open the modal
-    const  openModal = async (imageUrl,aboutMe,age,nationality, dressSize, weight, modelId) => {
+    const  openModal = async (imageUrl,aboutMe,age,nationality, dressSize, weight, video, modelId) => {
         console.log('Opening modal with image URL:', imageUrl);
         setSelectedImage(imageUrl);
         setAboutMe(aboutMe);
@@ -197,6 +226,7 @@ function Listing()
         setSelectedNationality(nationality);
         setSelectedDressSize(dressSize);
         setSelectedWeight(weight);
+        setSelectedVideo(video);
         setSelectedId(modelId);
         setShowModal(true);
         
@@ -213,6 +243,7 @@ function Listing()
         setSelectedDressSize('');
         setSelectedWeight('');
         setSelectedId('');
+        setSelectedVideo('');
         setShowModal(false);
       };
 
@@ -232,6 +263,7 @@ function Listing()
             nationality={selectedNationality} 
             dressSize={selectedDressSize}
             weight={selectedWeight}
+            video={selectedVideo}
             id={selectedId}
             onClose={closeModal} 
             />}
@@ -251,7 +283,10 @@ function Listing()
                     <div>
                         <table>
                             <tbody><tr>
-                                <td className="whats-app-number-icon"><i className="fab fa-whatsapp"></i></td>
+                                <td className="whats-app-number-icon">
+                                    <i className="fab fa-whatsapp"></i>
+                                    <FontAwesomeIcon icon={faWhatsapp} style={{ fontSize: 45, color: "black" }} />
+                                </td>
                                 <td>Call or WhatsApp on<br/>(+44) 07XX XXX XXX</td>
                             </tr>
                         </tbody></table>
@@ -330,6 +365,23 @@ function Listing()
                                 isMulti
                             />
 
+                                <Select
+                                styles={customStyles}
+                                className="mx-3"
+                                placeholder="Select Heights"
+                                value={height.map((p) => ({ label: p, value: p }))}
+                                onChange={(selectedOptions) => {
+                                    const selectedHeight = selectedOptions.map((option) => option.value);
+                                    setHeight(selectedHeight);
+                                    handleFilterChange({ age, nationality, price, location, height: selectedHeight, dressSize });
+                                }}
+                                options={uniqueHeights.map((uniqueHeight) => ({
+                                    label: uniqueHeight.height,
+                                    value: uniqueHeight.height,
+                                }))}
+                                isMulti
+                            />
+
                         
                         </div>
                     
@@ -376,6 +428,7 @@ function Listing()
                                                 `${model.nationality}`,
                                                 `${model.dressSize}`,
                                                 `${model.weight}`,
+                                                `${model.video}`,
                                                 `${model.id}`
                                                 // model
                                                 )}>
@@ -436,7 +489,7 @@ function Listing()
                             )}
                             {/* Pagination Controls */}
                             <div className="text-center">
-                                <ul className="pagination">
+                                <ul className="pagination my-5">
                                     {Array.from({ length: Math.ceil(models.length / itemsPerPage) }).map((_, index) => (
                                         <li
                                             key={index + 1}
@@ -444,6 +497,12 @@ function Listing()
                                         >
                                             <button
                                                 className="page-link"
+                                                style={{
+                                                    background: '#333', 
+                                                    color: '#fff', 
+                                                    borderRadius: '0px',
+                                                    marginRight: '5px'
+                                                }}
                                                 onClick={() => setCurrentPage(index + 1)}
                                             >
                                                 {index + 1}

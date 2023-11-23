@@ -47,7 +47,7 @@ const FooterContentList = () => {
                   <td>
                     {content.footer_image && (
                       <img
-                        src={`http://127.0.0.1:8000/storage/${content.footer_image}`}
+                        src={`${process.env.NEXT_PUBLIC_STORAGE_URL}/${content.footer_image}`}
                         alt="Footer Image"
                         style={{ width: '100px', height: 'auto' }}
                       />

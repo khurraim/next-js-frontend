@@ -5,12 +5,8 @@
   font-style: normal;
 }
 
-/* body {
-  padding: 0 5.9%;
-} */
-
-.padded {
-  padding: 0 5.9%;
+html,body {
+  overflow-x: hidden;
 }
 
 .wraper {
@@ -18,7 +14,6 @@
   letter-spacing: 1px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
   min-height: 100vh;
   width: 100%;
 }
@@ -141,6 +136,7 @@
   font-size: 15px;
   text-align: center;
   padding: 0 15%;
+  color: #000 !important;
 }
 
 .about-us-text{
@@ -177,7 +173,7 @@
   border-radius: 0px;
   padding: 8px 40px;
   background: #fff;
-  border: 2px solid #000;
+  border: 2px solid #000 !important;
   margin: 2px;
 }
 
@@ -273,6 +269,7 @@
 
 .modal-header {
   padding: 8px;
+  justify-content: end;
   border-bottom: none;
 }
 .modal-xxl{
@@ -311,4 +308,16 @@
 }
 .top-card .custom-card img{
   width: 730px;
+}
+
+.uploaded-imgs div img{
+  width: 110px;
+  height: 130px;
+}
+
+.uploaded-imgs div i{
+  font-size: 22px;
+  font-weight: 900;
+  margin-right: 15px;
+  margin-left: 15px;
 }

@@ -6,7 +6,17 @@ import { toast } from 'react-toastify';
 
 // Import the FontAwesomeIcon component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+
+//import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+
+import {
+  faFacebook,
+  faInstagram,
+  faSnapchat,
+  faTwitter,
+  faLinkedin,
+  faPinterest
+} from "@fortawesome/free-brands-svg-icons";
 
 
 
@@ -27,7 +37,7 @@ function ViewSocialIcons() {
   }, []);
 
   const handleDelete = (id) => {
-    axios.delete(`http://127.0.0.1:8000/api/social-icons/${id}`)
+    axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/social-icons/${id}`)
       .then(() => {
         setSocialIcons((prevIcons) => prevIcons.filter((icon) => icon.id !== id));
         toast.success("Icon Deleted Successfully");
@@ -65,17 +75,28 @@ function ViewSocialIcons() {
                 <tr key={icon.id}>
                   <td>{icon.id}</td>
       
-                  {/* <td>{icon.link}</td> */}
-                  <td>
-  {icon.name === 'Twitter' ? (
-    // Render something when icon.name is 'Twitter'
-    <FontAwesomeIcon
-        icon={faTwitter}
-        style={{ fontSize: 100, color: "green" }}
-      />
-  ) : null}
-</td>
-<td>Link</td>
+                  
+                  <td>            
+                  {icon.name === 'Twitter' ? (
+                    <FontAwesomeIcon icon={faTwitter} style={{ fontSize: 24, color: "blue" }} />
+                  ) : icon.name === 'Facebook' ? (
+                    <FontAwesomeIcon icon={faFacebook} style={{ fontSize: 24, color: "blue" }} />
+                  ) : icon.name === 'Instagram' ? (
+                    <FontAwesomeIcon icon={faInstagram} style={{ fontSize: 24, color: "purple" }} />
+                  ) : icon.name === 'Snapchat' ? (
+                    <FontAwesomeIcon icon={faSnapchat} style={{ fontSize: 24, color: "yellow" }} />
+                  ) : icon.name === 'Linkedin' ? (
+                    <FontAwesomeIcon icon={faLinkedin} style={{ fontSize: 24, color: "blue" }} />
+                  ) : icon.name === 'Pinterest' ? (
+                    <FontAwesomeIcon icon={faPinterest} style={{ fontSize: 24, color: "red" }} />
+                  ) : (
+                    // Add more conditions for other social media platforms as needed
+                    // ...
+                    null
+                  )}
+                  </td>
+
+                  <td>{icon.link}</td>
 
                   <td>
                     <Link href={`/dashboard/EditSocialIcons/${icon.id}`} className="btn btn-primary mx-3">

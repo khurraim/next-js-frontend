@@ -18,7 +18,7 @@ const EditHeaderMenu = () => {
     useEffect(() => {
         if (id) {
             // Fetch menu item data by ID when the component mounts
-            axios.get(`http://127.0.0.1:8000/api/menu/${id}`)
+            axios.get(`${process.env.NEXT_PUBLIC_API_URL}/menu/${id}`)
                 .then((response) => {
                     //setMenu(response.data);
                     setMenu({
@@ -32,7 +32,7 @@ const EditHeaderMenu = () => {
         }
 
         // Fetch pages for populating the dropdown
-        axios.get('http://127.0.0.1:8000/api/pages')
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}/pages`)
             .then((response) => {
                 setPages(response.data);
             })
@@ -56,7 +56,7 @@ const EditHeaderMenu = () => {
         }
 
         // Make a PUT request to update the menu item
-        axios.put(`http://127.0.0.1:8000/api/menu/${id}`, menu)
+        axios.put(`${process.env.NEXT_PUBLIC_API_URL}/menu/${id}`, menu)
             .then((response) => {
                 console.log(response.data);
                 // Redirect to the menu list or another page upon success

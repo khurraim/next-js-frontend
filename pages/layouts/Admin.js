@@ -6,19 +6,8 @@ import Link from 'next/link';
 import AuthUser from '../components/AuthUser';
 import NavbarDropdown from '../components/NavbarDropdown';
 
-
-// Newly Added
-
-
-//import UserDropdown from '../components/UserDropdown';
-
-// const handleLogout = () => {
-//   sessionStorage.clear();
-//   router.push('/login');
-// }
-
 const links = [
-  { label: 'View All Models', url: '/dashboard/ViewModels' },
+  //{ label: 'View All Models', url: '/dashboard/ViewModels' },
   { label: 'Create Model', url: '/dashboard/CreateModel' },
   { label: 'View Admin Model', url: '/dashboard/ViewAllAdminModels' },
   { label: 'View User Model', url: '/dashboard/ViewAllUserModels' },
@@ -60,6 +49,11 @@ const ContactMenu = [
   { label: 'View Messages', url: '/dashboard/ViewMessages' },
 ]
 
+const FAQLinks = [
+  { label: 'View FAQs', url: '/dashboard/ViewFAQs' },
+  { label: 'Create FAQS', url: '/dashboard/CreateFAQ' },
+]
+
 
 
 
@@ -84,6 +78,26 @@ const Admin = ({ children }) => {
         router.push('/login');
     }
 
+    const [isMobileScreen, setIsMobileScreen] = useState(false);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobileScreen(window.innerWidth < 768); // Adjust the breakpoint as needed
+      };
+  
+      // Initial check
+      handleResize();
+  
+      // Event listener for window resize
+      window.addEventListener('resize', handleResize);
+  
+      // Cleanup the event listener on component unmount
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     // Function to toggle the dropdown
@@ -105,19 +119,12 @@ const Admin = ({ children }) => {
   {/* navbar */}
   <div className="dashboard-header">
     <nav className="navbar navbar-expand-lg bg-white fixed-top">
-      <a className="navbar-brand" href="/dashboard">Concept</a>
+      <a className="navbar-brand" href="/dashboard">Models</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon" />
       </button>
       <div className="collapse navbar-collapse " id="navbarSupportedContent">
         <ul className="navbar-nav ml-auto navbar-right-top">
-
-
-          {/* <li className="nav-item">
-            <div id="custom-search" className="top-search-bar">
-              <input className="form-control" type="text" placeholder="Search.." />
-            </div>
-          </li> */}
           
 
           <li className={`nav-item dropdown nav-user ${isDropdownOpen ? 'show' : ''}`}>
@@ -132,11 +139,10 @@ const Admin = ({ children }) => {
             {isDropdownOpen && (
               <div className="dropdown-menu dropdown-menu-right nav-user-dropdown show">
                 <div className="nav-user-info">
-                  <h5 className="mb-0 text-white nav-user-name">James Howlett</h5>
+                  <h5 className="mb-0 text-white nav-user-name">Administrator</h5>
                 </div>
-                <a className="dropdown-item" href="#"><i className="fas fa-user mr-2"></i>Account</a>
-                <a className="dropdown-item" href="#"><i className="fas fa-cog mr-2"></i>Setting</a>
-                <a className="dropdown-item" onClick={() => logout()}><i className="fas fa-power-off mr-2"></i>Logout</a>
+                
+                <a className="dropdown-item" style={{cursor: 'pointer'}} onClick={() => logout()}><i className="fas fa-power-off mr-2"></i>Logout</a>
               </div>
             )}
             {/* Close the dropdown when clicking outside */}
@@ -156,25 +162,27 @@ const Admin = ({ children }) => {
     <div className="slimScrollDiv" style={{position: 'relative', overflow: 'hidden', width: 'auto', height: '100%'}}><div className="menu-list" style={{overflow: 'hidden', width: 'auto', height: '100%'}}>
         <nav className="navbar navbar-expand-lg navbar-light">
           <a className="d-xl-none d-lg-none" href="#">Dashboard</a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button className="navbar-toggler d-none" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div className={`${
+                isMobileScreen ? 'd-flex' : 'collapse'
+              } navbar-collapse`}  id="navbarNav">
             <ul className="navbar-nav flex-column">
-              <li className="nav-divider">
+              <li className="nav-divider text-white">
                 Menu
               </li>
 
               <NavbarDropdown title="Models" links={links} />
               
-              <li className='nav-divider'>
+              <li className='nav-divider text-white'>
                 Pages & Menus
               </li>
 
               <NavbarDropdown title="Pages" links={pagesLink} />
 
-              <li className='nav-divider'>
+              <li className='nav-divider text-white'>
                 Site Identity & HomePage
               </li>
 
@@ -185,14 +193,19 @@ const Admin = ({ children }) => {
 
               <NavbarDropdown title="Social Icons" links={SocialIconsSection} />
               
-              <li className='nav-divider'>
+              <li className='nav-divider text-white'>
                 Messages
               </li>
 
               <NavbarDropdown title="Contact Form" links={ContactMenu} />
 
+              <li className='nav-divider text-white'>
+                FAQs
+              </li>
 
-              <li className='nav-divider'>
+              <NavbarDropdown title="Frequently Asked Questions" links={FAQLinks} />
+
+              <li className='nav-divider text-white'>
                 Footer
               </li>
 
@@ -226,3 +239,5 @@ const Admin = ({ children }) => {
 };
 
 export default Admin;
+
+

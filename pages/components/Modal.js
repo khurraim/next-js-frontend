@@ -2,10 +2,17 @@ import React from 'react';
 
 import { useEffect, useState } from 'react';
 
-const Modal = ({ imageUrl, aboutMe, age, nationality , dressSize, weight, id, onClose }) => {
+import { useRef } from 'react';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
+const Modal = ({ imageUrl, aboutMe, age, nationality , dressSize, weight, video, id, onClose }) => {
 
   const [rates, setRates] = useState([]);
   const [galleryImages, setGalleryImages] = useState([]);
+
+  
 
 
   useEffect(() => {
@@ -36,12 +43,30 @@ const Modal = ({ imageUrl, aboutMe, age, nationality , dressSize, weight, id, on
     <div className='custom-modal' >
       
       <div className='modal-content'>
-      <button className='btn btn-dark ' style={{width: '5%'}} onClick={onClose}>X</button>
+      
+        {/* <button className='btn btn-dark ' style={{width: '5%'}} onClick={onClose}>X</button> */}
+
+        <div class="modal-header">
+          
+          
+            
+            <button onClick={onClose} type="button" class="btn-close p-2 pb-3 " data-bs-dismiss="modal" aria-label="Close">
+              <FontAwesomeIcon icon={faTimes}  />
+            </button>
+            
+          
+            
+        </div>
       
         
         <div className='row'>
+
           <div className='col-md-4 col-sm-4 col-lg-4 col-12'>
-            <img src={imageUrl} style={{height: 'auto', width: '100%'}}  alt="Modal" />
+            
+            {video && <video controls poster={imageUrl} style={{ width: '100%' }}>
+                <source src={`http://127.0.0.1:8000/storage/${video}`} type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>}
           </div>
 
           <div className='col-md-4 col-sm-4 col-lg-4 col-12'>
